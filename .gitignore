@@ -1,3 +1,4 @@
 nginx/logs/error.log
 redis/data/dump.rdb
 .DS_Store
+nginx/logs/access.log
