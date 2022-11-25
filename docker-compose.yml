@@ -14,7 +14,8 @@ services:
       - ./nginx/logs:/var/log/nginx
     restart: always
     ports:
-      - "81:80"
+      - "80:80"
+      - "443:443"
     networks:
       lnmp:
         ipv4_address: "6.6.0.10"
@@ -28,7 +29,7 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     restart: always
     ports:
-      - "6380:6379"
+      - "6379:6379"
     networks:
       lnmp:
         ipv4_address: "6.6.0.20"
@@ -38,14 +39,16 @@ services:
     image: mysql:5.6
     restart: always
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - ./mysql/config:/etc/mysql
       - ./mysql/log:/var/log/mysql
       - ./mysql/data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root
+      MYSQL_DATABASE: dbMagicAdmin
     networks:
       lnmp:
         ipv4_address: "6.6.0.30"
@@ -63,7 +66,7 @@ services:
     command: php-fpm
     restart: always
     ports:
-      - "9005:9000"
+      - "9000:9000"
     networks:
       lnmp:
         ipv4_address: "6.6.0.60"
